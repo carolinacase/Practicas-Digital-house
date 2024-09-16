@@ -1,11 +1,43 @@
 const prompt = require("prompt-sync")({sigint: true});
 
-//Funcion para agregar una nueva tarea al array
-let Tareas = [];
 
+let Tareas = [];
+let categoriasNombres = [
+    "trabajo",
+    "Personal",
+    //Agregar mas categorias segun sea necesario
+];
+
+//Funcion que muestra todas las categorias
+function mostrarTodasLasCategorias (){
+    console.log("Categorias Existentes: ");
+    categoriasNombres.forEach(function(categoria, indice){
+        console.log(indice + ":" + categoria)
+    });
+}
+
+//funcion que sirve para cargar nuevas categorias por el usuario
+function agregarNuevaCategoriaPorElUsuario(nombreCategoria){
+    categoriasNombres.push(nombreCategoria);
+    console.log("categoria" + nombreCategoria + "agregada Correctamente!");
+
+}
+//Funcion para agregar una nueva tarea al array
 function agregarTarea (nombreRecibido,FechaLimiteRecibida = null){
-    Tareas.push({ nombre: nombreRecibido, completada: false, FechaLimite: FechaLimiteRecibida });
-    console.log("Tarea agregada con éxito!");
+
+    mostrarTodasLasCategorias();
+
+    let numeroCategoria = parseInt(prompt("Ingrese el numero de la categoria para la nueva tarea: "));
+
+    if(numeroCategoria <= 0 && numeroCategoria < numeroCategoria.length){
+        Tareas.push({ nombre: nombreRecibido, completada : false, FechaLimite : FechaLimiteRecibida, categoria : numeroCategoria});
+        console.log("Tarea agregada con éxito!");
+
+
+    }else{
+        console.log("Numero de categoria Incorrecto");
+    }
+    
 }
 
 //Eliminar una tarea
@@ -48,12 +80,14 @@ function modificarTarea(indice,nuevoNombre,nuevaFechaLimite = null){
 
 //Menu de opciones 
 function MostrarMenu(){
-    console.log("_Menu_");
+    console.log("-- Menu --");
     console.log("1_Agregar Tarea");
     console.log("2_Eliminar Tarea");
     console.log("3_Marcar una tarea");
     console.log("4_Modificar una tarea");
     console.log("5_Mostrar todas las tareas");
+    console.log("6_Ver todas las categorias");
+    console.log("7_Agregar una nueva categoria");
     console.log("0_Salir");
 }
 //Interacion con el usuario 
@@ -88,6 +122,14 @@ function interactuarConUsuario(){
             case 5:
                 console.log("__Lista de Tareas__");
                 console.log(Tareas);
+                break;
+
+            case 6:
+                mostrarTodasLasCategorias();
+                break;
+
+            case 7:
+                let nuevaCategoria = prompt("Ingrese el nombre de la nueva categoria a agregar:");
                 break;
              
             default:
