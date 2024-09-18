@@ -77,18 +77,56 @@ function modificarTarea(indice,nuevoNombre,nuevaFechaLimite = null){
     }
 
 }
+//Funcion que filtra tareas por categoria 
+function filtrarTareasPorCategoria(numeroCategoria){
+   let tareasFiltradas = Tareas.filter(function(tarea){
+    return tarea.categoria === numeroCategoria;
 
-//Menu de opciones 
+   });
+   return tareasFiltradas;
+
+}
+
+//funcion que muestra cantidad de tareas completadas
+function contarTareasCompletadasPorCategoria(numeroCategoria){
+    let tareasCategoria = filtrarTareasPorCategoria(numeroCategoria);
+    let tareasCompletadas = tareasCategoria.reduce(function(contador, tarea){
+        return tarea.completada ? contador + 1 : contador;
+    },0);
+
+    let tareasEnTotal = tareasCategoria.length;
+
+    console.log("Tareas Completadas de la categoria " + numeroCategoria + ": " + tareasCompletadas + "de " + tareasEnTotal + "Tareas!");
+
+}
+
+//Funcion que muestra todas las tareas no completadas
+function mostrarTareasNoCompletadas(){
+    console.log ("Tareas no completadas: ");
+    Tareas.forEach(function(tarea){
+        if(!tarea.completada){
+            console.log(" - Nombre: "+ tarea.nombre +", Categoria"+ categoriasNombres[tarea.categoria]);
+        };
+
+    });
+
+};
+
+
+//Funcion para mostrar el menu de opciones 
 function MostrarMenu(){
     console.log("-- Menu --");
-    console.log("1_Agregar Tarea");
-    console.log("2_Eliminar Tarea");
-    console.log("3_Marcar una tarea");
-    console.log("4_Modificar una tarea");
-    console.log("5_Mostrar todas las tareas");
-    console.log("6_Ver todas las categorias");
-    console.log("7_Agregar una nueva categoria");
-    console.log("0_Salir");
+    console.log("1. Agregar Tarea");
+    console.log("2. Eliminar Tarea");
+    console.log("3. Marcar una tarea");
+    console.log("4. Modificar una tarea");
+    console.log("5. Mostrar todas las tareas");
+    console.log("6. Ver todas las categorias");
+    console.log("7. Agregar una nueva categoria");
+    console.log("8. Filtrar Tareas por categoria");
+    console.log("9. Visualizar Cantidad de tareas completadas por categoria");
+    console.log("10. Visualizar todas las tareas no completadas");
+    console.log("0. Salir");
 }
 //Interacion con el usuario 
 
@@ -130,7 +168,30 @@ function interactuarConUsuario(){
 
             case 7:
                 let nuevaCategoria = prompt("Ingrese el nombre de la nueva categoria a agregar:");
+                agregarNuevaCategoriaPorElUsuario(nuevaCategoria);
                 break;
+
+            case 8:
+                mostrarTodasLasCategorias();
+                let nroCategoria = parseInt(prompt("Ingrese el numero de la categoria a filtrar"));
+                let tareasCategoria = filtrarTareasPorCategoria(nroCategoria);
+
+                console.log("tareas de la categoria seleccionada: " );
+                console.log(tareasCategoria);
+                break;
+            
+            case 9:
+                mostrarTodasLasCategorias();
+                let nroCateg = parseInt(prompt("Ingrese el numero de la categoria a visualizar: "));
+                contarTareasCompletadasPorCategoria(nroCateg);
+                break;
+            
+            case 10:
+                mostrarTareasNoCompletadas();
+                break;
+
+            
+
              
             default:
                 console.log("Opcion Invalida");
